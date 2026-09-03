@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kübra İçin Bir Sürpriz...</title>
+    <!-- Konfeti kütüphanesi -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            user-select: none; /* Yanlışlıkla metin seçilmesini engeller */
+        }
+
+        #bas-buton {
+            font-size: 2.5rem;
+            font-weight: bold;
+            padding: 20px 60px;
+            color: white;
+            background-color: #ff6b6b;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.5);
+            transition: transform 0.2s, background-color 0.2s;
+            z-index: 10;
+        }
+
+        #bas-buton:hover {
+            transform: scale(1.1);
+            background-color: #ff4757;
+        }
+
+        /* Sürpriz notunun tasarımı */
+        #surpriz-kutu {
+            display: none; /* Başlangıçta gizli */
+            text-align: center;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px 60px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            pointer-events: none; /* Tıklamaların karta değil ekrana geçmesini sağlar */
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            color: #ff4757;
+            margin: 15px 0;
+        }
+
+        p {
+            font-size: 1.5rem;
+            color: #2f3542;
+            margin: 0;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+    <button id="bas-buton" onclick="surpriziBaslat(event)">BAS</button>
+>
+    <div id="surpriz-kutu">
+        <h1>İYİKİ DOĞMUŞSUUUN</h1>
+        <p>Ehm öncelikle iyiki doğmuşsun. Paragraf yazmadın deyince üzüldüm yazasım geldi. Hemde site bile yaptım bak o kadar değerlisin he. Hepsinden önce kaderin cilvesi iyiki aynı otobüse binmişiz ve tanışmışız. İyi kötü bissssürü şey yaşadık yaşamaya da devam edicez. Ben arkadaşlığımızın ömür boyu devam edeceğini düşünüyorum. Genellikle kavga ederek geçinsek de iletişim tarzımızın bu olduğuna karar verdim ve ben seni sinir etmeyi seviyom :D. Yani kısacası Kübra hanfendi iyi ki varsın, iyi ki doğmuşsun, iyi ki arkadaşımsın . Benim paragraf da bu kadar oldu çok da bekletmiyim seni uykun gelmiştir.<br>
+
+    <script>
+        var surprizAktif = false;
+
+        function noktadaKonfetiPatlat(x, y) {
+            if (typeof confetti === 'function') {
+                var originX = x / window.innerWidth;
+                var originY = y / window.innerHeight;
+
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { x: originX, y: originY },
+                    colors: ['#ff4757', '#ffa502', '#2ed573', '#1e90ff', '#ffffff', '#ff6b81']
+                });
+            }
+        }
+
+        function genelKonfetiPatlat() {
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            }
+        }
+
+        function surpriziBaslat(e) {
+            e.stopPropagation();
+
+            document.getElementById("bas-buton").style.display = "none";
+
+            var kutu = document.getElementById("surpriz-kutu");
+            kutu.style.display = "block";
+            setTimeout(function() {
+                kutu.style.opacity = "1";
+            }, 50);
+
+            genelKonfetiPatlat();
+            surprizAktif = true;
+        }
+        window.addEventListener('click', function(e) {
+            if (surprizAktif) {
+                noktadaKonfetiPatlat(e.clientX, e.clientY);
+            }
+        });
+
+        window.addEventListener('touchstart', function(e) {
+            if (surprizAktif && e.touches.length > 0) {
+                noktadaKonfetiPatlat(e.touches[0].clientX, e.touches[0].clientY);
+            }
+        });
+    </script>
+</body>
+</html>
